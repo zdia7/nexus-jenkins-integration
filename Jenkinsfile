@@ -1,16 +1,16 @@
 pipeline{
     agent any
-    stages{
-        stage("Sonarqube analysis"){
-            steps{
-                script{
-                withSonarQubeEnv(credentialsId: 'new_sonar') {
-                     sh 'mvn sonar:sonar' 
-                  }
-                }
-            }
-        }
-    }
+    // stages{
+    //     stage("Sonarqube analysis"){
+    //         steps{
+    //             script{
+    //             withSonarQubeEnv(credentialsId: 'new_sonar') {
+    //                  sh 'mvn sonar:sonar' 
+    //               }
+    //             }
+    //         }
+    //     }
+    // }
     post{
         always{
             echo "========always========"
