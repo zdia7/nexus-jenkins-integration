@@ -53,14 +53,13 @@
 
 	<distributionManagement>
     <snapshotRepository>
-      <id>nexusdeploymentrepo</id>
-      <url>http://34.122.147.224:8081/repository/maven-snapshots/</url>
+      <id>nexus</id>
+      <url>https://nexus.utils.baamtuservices.com/repository/maven-snapshots-test/</url>
     </snapshotRepository>
 	<repository>
-	  <id>nexusdeploymentrepo</id>
-      <url>http://34.122.147.224:8081/repository/maven-releases/</url>
+	  <id>nexus</id>
+      <url>https://nexus.utils.baamtuservices.com/repository/maven-releases-test/</url>
     </repository>
-  
   </distributionManagement>
 
 </project>
