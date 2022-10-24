@@ -35,9 +35,9 @@ pipeline {
             steps {
                 withSonarQubeEnv(installationName : 'sonarqube-server1') {
                     sh "mvn sonar:sonar \
-                          -Dsonar.projectKey=projet-integration-nexus \
-                          -Dsonar.host.url=http://192.168.1.50:9000 \
-                          -Dsonar.login=96e23327e3e8aa208b9c470f94e98016eda10aef"
+                          -Dsonar.projectKey=projet-configuration-nexus \
+                          -Dsonar.host.url=http://localhost:9000 \
+                          -Dsonar.login=765881f24a68d117529da5c3d60b72cac34084a6"
                 }
             }
         }
