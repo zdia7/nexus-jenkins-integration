@@ -8,10 +8,13 @@ pipeline {
     }
     environment {
         NEXUS_VERSION = "nexus3"
-        NEXUS_PROTOCOL = "http"
+        NEXUS_PROTOCOL = "https"
         NEXUS_URL = "nexus.utils.baamtuservices.com:8081"
         NEXUS_REPOSITORY = "maven-nexus-repo"
         NEXUS_CREDENTIAL_ID = "nexus-user-credentials"
+        imagename = "kubernetesdevops/nexus-demo"
+        registryCredential = 'dockerhub-credentials'
+        dockerImage = ''
     }
     stages {
         stage("Clone code from VCS") {
@@ -28,6 +31,24 @@ pipeline {
                 }
             }
         }
+        stage('Build && SonarQube Analysis') {
+            steps {
+                withSonarQubeEnv(installationName : 'sonarqube-server1') {
+                    sh '.mvn sonar:sonar \
+                        -Dsonar.projectKey=nexus-jenkins-sonarpro \
+                        -Dsonar.host.url=http://localhost:9000 \
+                        -Dsonar.login=13415f1f4412db8e8029fd430b1dfcb7fda861db'
+                }
+            }
+        }
+        stage("Quality gate") {
+            steps {
+                timeout(time:2, unit: 'MINUTES'){
+                    waitForQualityGate abortPipeline: true
+                }
+            }
+        }
+
         stage("Publish to Nexus Repository Manager") {
             steps {
                 script {
@@ -65,3 +86,4 @@ pipeline {
         }
     }
 }
+
