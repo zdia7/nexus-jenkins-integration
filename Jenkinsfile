@@ -34,10 +34,10 @@ pipeline {
         stage('Build && SonarQube Analysis') {
             steps {
                 withSonarQubeEnv(installationName : 'sonarqube-server1') {
-                    sh '.mvn sonar:sonar \
-                        -Dsonar.projectKey=nexus-jenkins-sonarpro \
-                        -Dsonar.host.url=http://192.168.1.50:9000 \
-                        -Dsonar.login=13415f1f4412db8e8029fd430b1dfcb7fda861db'
+                    sh "mvn sonar:sonar \
+                          -Dsonar.projectKey=projet-integration-nexus \
+                          -Dsonar.host.url=http://192.168.1.50:9000 \
+                          -Dsonar.login=96e23327e3e8aa208b9c470f94e98016eda10aef"
                 }
             }
         }
