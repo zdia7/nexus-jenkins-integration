@@ -49,6 +49,24 @@ pipeline {
             }
         }
 
+        stage('Building image') {
+            steps{
+                script {
+                    dockerImage = docker.build imagename + ":$BUILD_NUMBER"
+                }
+            }
+        }
+        stage('Deploy Image') {
+            steps{
+                script {
+                    docker.withRegistry( '', registryCredential ) {
+                    dockerImage.push("$BUILD_NUMBER")
+                    dockerImage.push('latest')
+                    }
+                }
+            }
+        }
+
         stage("Publish to Nexus Repository Manager") {
             steps {
                 script {
