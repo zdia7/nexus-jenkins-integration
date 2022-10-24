@@ -36,7 +36,7 @@ pipeline {
                 withSonarQubeEnv(installationName : 'sonarqube-server1') {
                     sh '.mvn sonar:sonar \
                         -Dsonar.projectKey=nexus-jenkins-sonarpro \
-                        -Dsonar.host.url=http://localhost:9000 \
+                        -Dsonar.host.url=http://192.168.1.50:9000 \
                         -Dsonar.login=13415f1f4412db8e8029fd430b1dfcb7fda861db'
                 }
             }
