@@ -14,7 +14,7 @@ pipeline {
         NEXUS_CREDENTIAL_ID = "nexus-user-credentials"
         imagename = "kubernetesdevops/nexus-demo"
         registryCredential = 'dockerhub-credentials'
-        dockerImage = ''
+        dockerImage = 'nexus-jenkins-integration'
     }
     stages {
         stage("Clone code from VCS") {
@@ -43,7 +43,7 @@ pipeline {
         }
         // stage("Quality gate") {
         //     steps {
-        //         timeout(time:5, unit: 'MINUTES'){
+        //         timeout(time:2, unit: 'MINUTES'){
         //             waitForQualityGate abortPipeline: true
         //         }
         //     }
@@ -52,7 +52,7 @@ pipeline {
         stage('Building image') {
             steps{
                 script {
-                    dockerImage = docker.build imagename + ":$BUILD_NUMBER"
+                    dockerImage = docker.build imagename + ":${dockerImage}"
                 }
             }
         }
@@ -60,7 +60,7 @@ pipeline {
             steps{
                 script {
                     docker.withRegistry( '', registryCredential ) {
-                    dockerImage.push("$BUILD_NUMBER")
+                    dockerImage.push("${dockerImage}")
                     dockerImage.push('latest')
                     }
                 }
