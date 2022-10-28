@@ -31,16 +31,16 @@ pipeline {
                 }
             }
         }
-        stage('Build && SonarQube Analysis') {
-            steps {
-                withSonarQubeEnv(installationName : 'sonarqube-server1') {
-                    sh "mvn sonar:sonar \
-                          -Dsonar.projectKey=projet-configuration-nexus \
-                          -Dsonar.host.url=http://192.168.1.50:9000 \
-                          -Dsonar.login=765881f24a68d117529da5c3d60b72cac34084a6"
-                }
-            }
-        }
+        // stage('Build && SonarQube Analysis') {
+        //     steps {
+        //         withSonarQubeEnv(installationName : 'sonarqube-server1') {
+        //             sh "mvn sonar:sonar \
+        //                   -Dsonar.projectKey=projet-configuration-nexus \
+        //                   -Dsonar.host.url=http://192.168.1.50:9000 \
+        //                   -Dsonar.login=765881f24a68d117529da5c3d60b72cac34084a6"
+        //         }
+        //     }
+        // }
         // stage("Quality gate") {
         //     steps {
         //         timeout(time:2, unit: 'MINUTES'){
