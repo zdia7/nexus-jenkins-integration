@@ -14,7 +14,8 @@ pipeline {
         NEXUS_CREDENTIAL_ID = "nexus-user-credentials"
         imagename = "kubernetesdevops/nexus-demo"
         registryCredential = 'dockerhub-credentials'
-        dockerImage = 'nexus-jenkins-integration'
+        //dockerImage = 'nexus-jenkins-integration'
+        dockerImage = ''
     }
     stages {
         stage("Clone code from VCS") {
@@ -28,6 +29,24 @@ pipeline {
             steps {
                 script {
                     sh "mvn package -DskipTests=true"
+                }
+            }
+        }
+        stage('Building image') {
+            steps{
+                script {
+                dockerImage = docker.build imagename
+                }
+            }
+            }
+        stage('Deploy Image') {
+            steps{
+                script {
+                docker.withRegistry( '', registryCredential ) {
+                    dockerImage.push("$BUILD_NUMBER")
+                    dockerImage.push('latest')
+
+                }
                 }
             }
         }
@@ -49,24 +68,24 @@ pipeline {
         //     }
         // }
 
-        stage('Building image') {
-            steps{
-                script {
-                    // dockerImage = docker.build imagename + ":${dockerImage}"
-                    dockerImage = docker.build imagename
-                }
-            }
-        }
-        stage('Deploy Image') {
-            steps{
-                script {
-                    docker.withRegistry( '', registryCredential ) {
-                    dockerImage.push("${dockerImage}")
-                    // dockerImage.push('latest')
-                    }
-                }
-            }
-        }
+        // stage('Building image') {
+        //     steps{
+        //         script {
+        //             // dockerImage = docker.build imagename + ":${dockerImage}"
+        //             dockerImage = docker.build imagename
+        //         }
+        //     }
+        // }
+        // stage('Deploy Image') {
+        //     steps{
+        //         script {
+        //             docker.withRegistry( '', registryCredential ) {
+        //             dockerImage.push("${dockerImage}")
+        //             // dockerImage.push('latest')
+        //             }
+        //         }
+        //     }
+        // }
 
         stage("Publish to Nexus Repository Manager") {
             steps {
